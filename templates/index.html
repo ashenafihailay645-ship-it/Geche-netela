@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Geche Habesha Netela</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="font-family:Arial;text-align:center">
+
+<h1>Geche Habesha Netela</h1>
+<h3>Wholesale & Retail</h3>
+
+<img src="/static/netela1.jpg" width="300"><br><br>
+
+<h2>Make Order</h2>
+
+<select id="type">
+{% for name,price in products.items() %}
+<option value="{{name}}" data-single="{{price[0]}}" data-bulk="{{price[1]}}">
+{{name}} (Single {{price[0]}} / Bulk {{price[1]}})
+</option>
+{% endfor %}
+</select>
+
+<br><br>
+
+Quantity:<br>
+<input type="number" id="qty" value="1" min="1"><br><br>
+
+<button onclick="orderNow()" style="background:green;color:white;padding:15px;border:none;border-radius:10px">
+Order on WhatsApp
+</button>
+
+<script>
+function orderNow(){
+
+var select = document.getElementById("type");
+var option = select.options[select.selectedIndex];
+
+var name = option.value;
+var single = option.getAttribute("data-single");
+var bulk = option.getAttribute("data-bulk");
+var qty = document.getElementById("qty").value;
+
+var price;
+var mode;
+
+if(qty >= 5){
+price = bulk;
+mode = "Bulk";
+}else{
+price = single;
+mode = "Single";
+}
+
+var total = price * qty;
+
+var msg = "Hello Geche Netela,%0AType: "+name+"%0AQty: "+qty+"%0AMode: "+mode+"%0ATotal: "+total+" Birr";
+
+window.open("https://wa.me/251943663348?text="+msg,"_blank");
+}
+</script>
+
+</body>
+</html>
